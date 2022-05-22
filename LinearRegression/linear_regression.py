@@ -10,7 +10,7 @@ from tqdm import tqdm
 import random
 
 
-class PlainLinearRegression():
+class CustomPlainLinearRegression():
     
     def __init__(self, lr,  max_iter = 100):
         self.lr = lr
@@ -46,7 +46,7 @@ class PlainLinearRegression():
         return self._fx(self.w, x, self.b)
 
 
-class LassoRegression():
+class CustomLassoRegression():
     
     def __init__(self, lr, alpha,  max_iter = 100):
         self.lr = lr
@@ -94,7 +94,7 @@ class LassoRegression():
     def predict(self, x):
         return self._fx(self.w, x, self.b)
 
-class RidgeRegression():
+class CustomRidgeRegression():
     
     def __init__(self, lr, alpha,  max_iter = 100):
         self.lr = lr
@@ -133,7 +133,7 @@ class RidgeRegression():
 
 
 
-class ElasticNet():
+class CustomElasticNet():
     
     def __init__(self, lr, alpha, l1_ratio,  max_iter = 100):
         self.lr = lr
