@@ -8,10 +8,12 @@ import sys
 sys.path.insert(0, '..')
 from LinearRegression.linear_regression import CustomPlainLinearRegression, CustomLassoRegression, CustomRidgeRegression, CustomElasticNet
 from LogisticRegression.logistic_regression import CustomLogisticRegression, CustomSGDClassifier
+from PCA.pca import CustomPCA
 import numpy as np
 from sklearn.datasets import make_classification
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression, SGDClassifier
+from sklearn.decomposition import PCA
 
 def test_CustomPlainLinearRegression():
     x = np.random.randn(1000, 5) 
@@ -87,10 +89,33 @@ def test_CustomSGDClassifier():
     print('b: ', m.intercept_)
     print('prediction: ', m.predict(x[0].reshape(1, -1)))
 
+
+def test_CustomPCA():
+    x = np.random.randn(20, 5)
+    custom =  CustomPCA(n_components = 2)
+    custom.fit(x)
+    
+    m, n = x.shape
+    mean = np.mean(x, axis = 0)
+    std = np.std(x, axis = 0)    
+    for j in range(n):
+        x[:, j] = ( x[:, j] - mean[j] ) / std[j]
+    
+    
+    model = PCA(n_components = 2)
+    model.fit(x)
+    print("sklearn eigen_values: \n", model.explained_variance_)
+    print("custom eigen_values: \n", custom.eigen_values)
+    print("sklearn eigen_vectors: \n", model.components_)
+    print("custom eigen_vectors: \n", custom.eigen_vectors)
+    print("sklearn explained_variance_ratio_: \n", model.explained_variance_ratio_)
+    print("custom explained_variance_ratio_: \n", custom.explained_variance_ratio)
+
 if __name__ == '__main__':
     # test_CustomPlainLinearRegression()
     # test_CustomLassoRegression()
     # test_CustomRidgeRegression()
     # test_CustomElasticNet()
     # test_CustomLogisticRegression()
-    test_CustomSGDClassifier()
+    # test_CustomSGDClassifier()
+    test_CustomPCA()
