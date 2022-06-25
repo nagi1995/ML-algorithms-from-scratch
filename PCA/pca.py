@@ -6,8 +6,6 @@ Created on Sun Jun  5 14:27:41 2022
 """
 
 import numpy as np
-from tqdm import tqdm
-from sklearn.decomposition import PCA
 
 class CustomPCA():
     
