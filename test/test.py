@@ -9,11 +9,13 @@ sys.path.insert(0, '..')
 from LinearRegression.linear_regression import CustomPlainLinearRegression, CustomLassoRegression, CustomRidgeRegression, CustomElasticNet
 from LogisticRegression.logistic_regression import CustomLogisticRegression, CustomSGDClassifier
 from PCA.pca import CustomPCA
+from kNN.knn import CustomKNNClassifier, CustomKNNRegressor
 import numpy as np
 from sklearn.datasets import make_classification
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression, SGDClassifier
 from sklearn.decomposition import PCA
+from sklearn.neighbors import KNeighborsRegressor
 
 def test_CustomPlainLinearRegression():
     x = np.random.randn(1000, 5) 
@@ -111,6 +113,28 @@ def test_CustomPCA():
     print("sklearn explained_variance_ratio_: \n", model.explained_variance_ratio_)
     print("custom explained_variance_ratio_: \n", custom.explained_variance_ratio)
 
+def test_CustomKNNClassifier():
+    x = np.array([[-1], [-2], [-3], [-4], [-5], [1], [2], [3], [4], [5]])
+    y = np.array([0, 0, 0, 0, 0, 1, 1, 1, 1, 1])
+    custom = CustomKNNClassifier(k = 3)
+    custom.fit(x, y)
+    print("prediction:", custom.predict(np.array([[1.5]])))
+    print("prediction:", custom.predict(np.array([[-1.5]])))
+    for i in range(10):
+        print("prediction:", custom.predict(np.array([[0]])))
+        
+def test_CustomKNNRegressor():
+    x = np.array([[-.1], [-.2], [-.3], [-.4], [-.5], [.1], [.2], [.3], [.4], [.5]])
+    y = np.array([-.1, -.2, -.3, -.4, -.5, .1, .2, .3, .4, .5])
+    custom = CustomKNNRegressor(k = 3)
+    model = KNeighborsRegressor(n_neighbors = 3)
+    model.fit(x, y)
+    custom.fit(x, y)
+    print("custom prediction:", custom.predict(np.array([[.14]])), "sklearn prediction:",  model.predict(np.array([[.14]])))
+    print("custom prediction:", custom.predict(np.array([[-.15]])), "sklearn prediction:",  model.predict(np.array([[-.15]])))
+    for i in range(10):
+        print("custom prediction:", custom.predict(np.array([[0]])), "sklearn prediction:",  model.predict(np.array([[0]])))
+
 if __name__ == '__main__':
     # test_CustomPlainLinearRegression()
     # test_CustomLassoRegression()
@@ -118,4 +142,6 @@ if __name__ == '__main__':
     # test_CustomElasticNet()
     # test_CustomLogisticRegression()
     # test_CustomSGDClassifier()
-    test_CustomPCA()
+    # test_CustomPCA()
+    test_CustomKNNClassifier()
+    test_CustomKNNRegressor()
